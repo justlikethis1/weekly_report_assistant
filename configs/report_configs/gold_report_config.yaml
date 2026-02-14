@@ -1,0 +1,63 @@
+# 黄金报告配置
+
+# 数据字段配置
+data_fields:
+  price_data:
+    required: true
+    validation:
+      min_value: 0
+      max_value: 10000
+      required_columns: ["date", "price"]
+    mapping:
+      date_column: "日期"
+      price_column: "价格"
+      unit_column: "单位"
+
+# 模板章节配置
+template_sections:
+  - id: "executive_summary"
+    title: "执行摘要"
+    required: true
+    min_length: 300
+    max_length: 500
+    template: "executive_summary.md"
+    importance: 5
+
+  - id: "price_overview"
+    title: "价格概览"
+    required: true
+    data_binding: "price_data"
+    template: "price_table.md"
+    importance: 5
+
+  - id: "correlation_analysis"
+    title: "相关性分析"
+    required: false
+    data_binding: "correlations"
+    template: "correlation_analysis.md"
+    importance: 4
+
+  - id: "insights_and_recommendations"
+    title: "洞察与建议"
+    required: true
+    min_length: 500
+    max_length: 1000
+    template: "recommendations.md"
+    importance: 5
+
+# 分析流水线配置
+analysis_pipeline:
+  - name: "price_trend_analysis"
+    weight: 0.3
+
+  - name: "correlation_analysis"
+    weight: 0.25
+
+  - name: "risk_assessment"
+    weight: 0.2
+
+  - name: "market_sentiment"
+    weight: 0.15
+
+  - name: "comparative_analysis"
+    weight: 0.1
